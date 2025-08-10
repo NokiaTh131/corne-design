@@ -16,9 +16,9 @@ export const Keycap: React.FC<KeycapProps> = ({ keycap, onClick, isSelected = fa
   return (
     <div
       className={`
-        w-12 h-12 rounded-md border cursor-pointer
+        w-16 h-16 rounded-lg border cursor-pointer
         flex items-center justify-center
-        font-mono text-xs font-medium
+        font-mono text-sm font-medium
         transition-all duration-200
         hover:scale-105 hover:shadow-md
         ${isSelected ? 'ring-1' : ''}
@@ -26,14 +26,14 @@ export const Keycap: React.FC<KeycapProps> = ({ keycap, onClick, isSelected = fa
       style={{
         backgroundColor: keycap.color,
         color: textColor,
-        borderColor: isSelected ? theme.colors.accent : theme.colors.border + '60',
+        borderColor: isSelected ? theme.colors.accent : '#000000',
         ...(isSelected && {
           '--tw-ring-color': theme.colors.accent
         })
       }}
       onClick={onClick}
     >
-      <span className={isThumbKey ? 'text-[10px]' : 'text-xs'}>{keycap.label}</span>
+      <span className={isThumbKey ? 'text-xs' : 'text-sm'}>{keycap.label}</span>
     </div>
   );
 };

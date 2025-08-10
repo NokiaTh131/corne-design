@@ -16,19 +16,13 @@ export const KeyCustomizer: React.FC<KeyCustomizerProps> = ({
 }) => {
   if (!selectedKey) {
     return (
-      <div 
-        className="rounded-lg p-6 border text-center"
-        style={{ 
-          backgroundColor: theme.colors.surface,
-          borderColor: theme.colors.border 
-        }}
-      >
-        <div style={{ color: theme.colors.textMuted }}>
-          <svg className="w-8 h-8 mx-auto mb-3 opacity-40" fill="currentColor" viewBox="0 0 20 20">
-            <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" />
-          </svg>
-          <p className="text-sm">Select a key to customize</p>
-        </div>
+      <div className="text-center py-8">
+        <p 
+          className="text-sm"
+          style={{ color: theme.colors.textMuted }}
+        >
+          Select a key to customize
+        </p>
       </div>
     );
   }

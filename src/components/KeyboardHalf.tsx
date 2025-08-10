@@ -12,10 +12,10 @@ interface KeyboardHalfProps {
   theme: ColorTheme;
 }
 
-export const KeyboardHalf: React.FC<KeyboardHalfProps> = ({ 
-  keys, 
-  side, 
-  onKeySelect, 
+export const KeyboardHalf: React.FC<KeyboardHalfProps> = ({
+  keys,
+  side,
+  onKeySelect,
   selectedKeys,
   theme
 }) => {
@@ -29,25 +29,25 @@ export const KeyboardHalf: React.FC<KeyboardHalfProps> = ({
 
   return (
     <div className="relative">
-      <div 
-        className="rounded-xl p-5 border backdrop-blur-sm"
-        style={{ 
-          backgroundColor: theme.colors.surface + '80',
+      <div
+        className="rounded-2xl p-8 border"
+        style={{
+          backgroundColor: theme.colors.surface,
           borderColor: theme.colors.border + '40'
         }}
       >
         {/* Main key grid with column stagger */}
         <div className="relative">
           {/* Column-based layout */}
-          <div className="flex gap-1">
+          <div className="flex gap-2">
             {[0, 1, 2, 3, 4, 5].map(colIndex => (
               <div
                 key={colIndex}
-                className="flex flex-col gap-1"
+                className="flex flex-col gap-2"
                 style={{
-                  transform: side === 'left' 
-                    ? `translateY(${COLUMN_STAGGER[colIndex]}px)` 
-                    : `translateY(${COLUMN_STAGGER[5 - colIndex]}px)`,
+                  transform: side === 'left'
+                    ? `translateY(${COLUMN_STAGGER[colIndex] * 1.5}px)`
+                    : `translateY(${COLUMN_STAGGER[5 - colIndex] * 1.5}px)`,
                 }}
               >
                 {[0, 1, 2].map(rowIndex => {
@@ -61,16 +61,16 @@ export const KeyboardHalf: React.FC<KeyboardHalfProps> = ({
                       theme={theme}
                     />
                   ) : (
-                    <div key={`${rowIndex}-${colIndex}`} className="w-12 h-12" />
+                    <div key={`${rowIndex}-${colIndex}`} className="w-16 h-16" />
                   );
                 })}
               </div>
             ))}
           </div>
         </div>
-        
+
         {/* Thumb cluster */}
-        <div className="flex justify-center mt-5 gap-1">
+        <div className="flex justify-center mt-6 gap-2">
           {thumbKeys.map((key) => (
             <Keycap
               key={key.id}
@@ -81,9 +81,9 @@ export const KeyboardHalf: React.FC<KeyboardHalfProps> = ({
             />
           ))}
         </div>
-        
+
         <div className="text-center mt-3">
-          <div 
+          <div
             className="text-xs font-light tracking-wider opacity-60"
             style={{ color: theme.colors.textMuted }}
           >

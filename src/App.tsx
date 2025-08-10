@@ -27,149 +27,115 @@ function App() {
   const [selectedTheme, setSelectedTheme] = useState<ColorTheme>(COLOR_THEMES.nord);
 
   return (
-    <div 
+    <div
       className="min-h-screen transition-colors duration-300"
       style={{ backgroundColor: selectedTheme.colors.background }}
     >
-      <div className="max-w-7xl mx-auto px-4 py-6">
-        {/* Minimal Header */}
-        <header className="text-center mb-12">
-          <h1 
-            className="text-4xl font-light tracking-tight mb-2"
-            style={{ color: selectedTheme.colors.text }}
-          >
-            Corne Designer
-          </h1>
-          <p 
-            className="text-sm"
-            style={{ color: selectedTheme.colors.textMuted }}
-          >
-            3×6+3 Split Keyboard Visualizer
-          </p>
-        </header>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Keyboard Display */}
-          <div className="lg:col-span-2">
-            <div className="flex flex-col items-center space-y-8">
-              <div className="flex items-center gap-6">
-                <KeyboardHalf
-                  keys={keyboardConfig.leftKeys}
-                  side="left"
-                  onKeySelect={toggleKeySelection}
-                  selectedKeys={selectedKeys}
-                  theme={selectedTheme}
-                />
-                <CableConnector 
-                  cableColor={keyboardConfig.cableColor}
-                />
-                <KeyboardHalf
-                  keys={keyboardConfig.rightKeys}
-                  side="right"
-                  onKeySelect={toggleKeySelection}
-                  selectedKeys={selectedKeys}
-                  theme={selectedTheme}
-                />
-              </div>
-              
-              {/* Helper Text */}
-              <div className="text-center">
-                <p 
-                  className="text-xs opacity-60"
-                  style={{ color: selectedTheme.colors.textMuted }}
-                >
-                  Click keys to select • Ctrl+Click for multi-select
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Controls Panel */}
-          <div className="space-y-6">
-            <ThemeSelector
-              themes={COLOR_THEMES}
-              selectedTheme={selectedTheme}
-              onThemeChange={setSelectedTheme}
-              onApplyTheme={(theme) => {
-                // Apply theme colors to keyboard
-                const allKeys = [...keyboardConfig.leftKeys, ...keyboardConfig.rightKeys];
-                allKeys.forEach((key, index) => {
-                  const colorIndex = index % theme.colors.keycapColors.length;
-                  updateKey(key.id, { color: theme.colors.keycapColors[colorIndex] });
-                });
-                updateCableColor(theme.colors.cableColors[0]);
-              }}
+      <div className="max-w-6xl mx-auto px-4 py-6">
+        {/* Keyboard Display - Centered and Prominent */}
+        <div className="flex justify-center mt-10">
+          <div className="flex items-center gap-2 scale-110">
+            <KeyboardHalf
+              keys={keyboardConfig.leftKeys}
+              side="left"
+              onKeySelect={toggleKeySelection}
+              selectedKeys={selectedKeys}
+              theme={selectedTheme}
             />
-            
-            {selectedKeys.size > 0 ? (
-              <MultiKeyCustomizer
-                selectedKeys={getSelectedKeysConfig()}
-                onUpdateSelectedKeys={updateSelectedKeys}
-                onSelectAll={selectAllKeys}
-                onClearSelection={clearSelection}
-                theme={selectedTheme}
-                customColors={customColors}
-                onAddCustomColor={addCustomColor}
-              />
-            ) : (
-              <KeyCustomizer
-                selectedKey={null}
-                onKeyUpdate={updateKey}
-                theme={selectedTheme}
-              />
-            )}
+            <CableConnector
+              cableColor={keyboardConfig.cableColor}
+            />
+            <KeyboardHalf
+              keys={keyboardConfig.rightKeys}
+              side="right"
+              onKeySelect={toggleKeySelection}
+              selectedKeys={selectedKeys}
+              theme={selectedTheme}
+            />
+          </div>
+        </div>
 
-            {/* Cable Customizer */}
-            <div 
-              className="rounded-lg p-4 border"
-              style={{ 
-                backgroundColor: selectedTheme.colors.surface,
-                borderColor: selectedTheme.colors.border 
-              }}
-            >
-              <div className="flex items-center justify-between mb-3">
-                <h3 
-                  className="text-sm font-medium"
+
+        {/* Controls Panel - Compact */}
+        <div className="max-w-3xl mx-auto mt-10">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div>
+              <ThemeSelector
+                themes={COLOR_THEMES}
+                selectedTheme={selectedTheme}
+                onThemeChange={setSelectedTheme}
+                onApplyTheme={(theme) => {
+                  // Apply theme colors to keyboard
+                  const allKeys = [...keyboardConfig.leftKeys, ...keyboardConfig.rightKeys];
+                  allKeys.forEach((key, index) => {
+                    const colorIndex = index % theme.colors.keycapColors.length;
+                    updateKey(key.id, { color: theme.colors.keycapColors[colorIndex] });
+                  });
+                  updateCableColor(theme.colors.cableColors[0]);
+                }}
+              />
+            </div>
+
+            <div>
+              {selectedKeys.size > 0 ? (
+                <MultiKeyCustomizer
+                  selectedKeys={getSelectedKeysConfig()}
+                  onUpdateSelectedKeys={updateSelectedKeys}
+                  onSelectAll={selectAllKeys}
+                  onClearSelection={clearSelection}
+                  theme={selectedTheme}
+                  customColors={customColors}
+                  onAddCustomColor={addCustomColor}
+                />
+              ) : (
+                <KeyCustomizer
+                  selectedKey={null}
+                  onKeyUpdate={updateKey}
+                  theme={selectedTheme}
+                />
+              )}
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <h3
+                  className="text-sm font-medium mb-2"
                   style={{ color: selectedTheme.colors.text }}
                 >
-                  Cable Color
+                  Cable
                 </h3>
+                <div className="grid grid-cols-4 gap-1">
+                  {selectedTheme.colors.cableColors.map((color) => (
+                    <button
+                      key={color}
+                      className={`
+                        w-5 h-5 rounded border cursor-pointer
+                        ${keyboardConfig.cableColor === color ? 'ring-1' : ''}
+                      `}
+                      style={{
+                        backgroundColor: color,
+                        borderColor: selectedTheme.colors.border,
+                        ...(keyboardConfig.cableColor === color && {
+                          '--tw-ring-color': selectedTheme.colors.accent
+                        })
+                      }}
+                      onClick={() => updateCableColor(color)}
+                      aria-label={`Select cable color ${color}`}
+                    />
+                  ))}
+                </div>
               </div>
-              <div className="grid grid-cols-4 gap-1.5">
-                {selectedTheme.colors.cableColors.map((color) => (
-                  <button
-                    key={color}
-                    className={`
-                      w-7 h-7 rounded-md border cursor-pointer
-                      transition-all duration-200
-                      hover:scale-110
-                      ${keyboardConfig.cableColor === color ? 'ring-1' : ''}
-                    `}
-                    style={{ 
-                      backgroundColor: color,
-                      borderColor: selectedTheme.colors.border + '60',
-                      ...(keyboardConfig.cableColor === color && {
-                        '--tw-ring-color': selectedTheme.colors.accent
-                      })
-                    }}
-                    onClick={() => updateCableColor(color)}
-                    aria-label={`Select cable color ${color}`}
-                  />
-                ))}
-              </div>
-            </div>
 
-            <div className="flex justify-center pt-4">
               <button
                 onClick={resetToDefault}
-                className="px-4 py-2 text-sm rounded-md border transition-all duration-200 hover:scale-105"
-                style={{ 
+                className="w-full py-1.5 px-3 text-xs rounded border"
+                style={{
                   backgroundColor: selectedTheme.colors.surface,
                   borderColor: selectedTheme.colors.border,
-                  color: selectedTheme.colors.textMuted 
+                  color: selectedTheme.colors.textMuted
                 }}
               >
-                Reset Layout
+                Reset
               </button>
             </div>
           </div>

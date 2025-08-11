@@ -28,17 +28,26 @@ export const DEFAULT_CABLE_COLORS = [
 
 // Corne keyboard layout: 3x6 main keys + 3 thumb keys per side
 export const DEFAULT_LEFT_KEYS: KeycapConfig[] = [
-  // Main keys (3 rows x 6 columns)
-  ...Array.from({ length: 18 }, (_, i) => ({
+  // Main keys (3 rows x 5 columns, removing inner column)
+  ...Array.from({ length: 15 }, (_, i) => ({
     id: `left-main-${i}`,
     color: '#374151',
     label: '',
     position: {
-      row: Math.floor(i / 6),
-      col: i % 6,
+      row: Math.floor(i / 5),
+      col: i % 5,
     },
     keyType: 'main' as const,
   })),
+  
+  // Special keys (2 keys at inner column)
+  { id: 'left-special-0', color: '#374151', label: '', position: { row: 0, col: 5 }, keyType: 'special' as const },
+  { id: 'left-special-1', color: '#374151', label: '', position: { row: 1, col: 5 }, keyType: 'special' as const },
+  
+  // Extra keys (3 keys at outer left)
+  { id: 'left-extra-0', color: '#374151', label: '', position: { row: 0, col: -1 }, keyType: 'extra' as const },
+  { id: 'left-extra-1', color: '#374151', label: '', position: { row: 1, col: -1 }, keyType: 'extra' as const },
+  { id: 'left-extra-2', color: '#374151', label: '', position: { row: 2, col: -1 }, keyType: 'extra' as const },
   // Thumb keys (3 keys)
   ...Array.from({ length: 3 }, (_, i) => ({
     id: `left-thumb-${i}`,
@@ -53,17 +62,26 @@ export const DEFAULT_LEFT_KEYS: KeycapConfig[] = [
 ];
 
 export const DEFAULT_RIGHT_KEYS: KeycapConfig[] = [
-  // Main keys (3 rows x 6 columns)
-  ...Array.from({ length: 18 }, (_, i) => ({
+  // Special keys (2 keys at inner column)
+  { id: 'right-special-0', color: '#374151', label: '', position: { row: 0, col: 0 }, keyType: 'special' as const },
+  { id: 'right-special-1', color: '#374151', label: '', position: { row: 1, col: 0 }, keyType: 'special' as const },
+  
+  // Main keys (3 rows x 5 columns, starting from column 1)
+  ...Array.from({ length: 15 }, (_, i) => ({
     id: `right-main-${i}`,
     color: '#374151',
     label: '',
     position: {
-      row: Math.floor(i / 6),
-      col: i % 6,
+      row: Math.floor(i / 5),
+      col: (i % 5) + 1, // Start from column 1
     },
     keyType: 'main' as const,
   })),
+  
+  // Extra keys (3 keys at outer right)
+  { id: 'right-extra-0', color: '#374151', label: '', position: { row: 0, col: 6 }, keyType: 'extra' as const },
+  { id: 'right-extra-1', color: '#374151', label: '', position: { row: 1, col: 6 }, keyType: 'extra' as const },
+  { id: 'right-extra-2', color: '#374151', label: '', position: { row: 2, col: 6 }, keyType: 'extra' as const },
   // Thumb keys (3 keys)
   ...Array.from({ length: 3 }, (_, i) => ({
     id: `right-thumb-${i}`,

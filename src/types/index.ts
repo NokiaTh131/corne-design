@@ -6,7 +6,7 @@ export interface KeycapConfig {
     row: number;
     col: number;
   };
-  keyType: 'main' | 'thumb';
+  keyType: 'main' | 'thumb' | 'extra' | 'special';
 }
 
 export interface KeyboardConfig {

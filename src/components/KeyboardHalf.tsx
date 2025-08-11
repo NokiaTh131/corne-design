@@ -20,6 +20,8 @@ export const KeyboardHalf: React.FC<KeyboardHalfProps> = ({
   theme
 }) => {
   const mainKeys = keys.filter(key => key.keyType === 'main');
+  const extraKeys = keys.filter(key => key.keyType === 'extra');
+  const specialKeys = keys.filter(key => key.keyType === 'special');
   const thumbKeys = keys.filter(key => key.keyType === 'thumb').sort((a, b) => a.position.col - b.position.col);
 
   const handleKeyClick = (keyId: string, event: React.MouseEvent) => {
@@ -40,17 +42,46 @@ export const KeyboardHalf: React.FC<KeyboardHalfProps> = ({
         <div className="relative">
           {/* Column-based layout */}
           <div className="flex gap-2">
-            {[0, 1, 2, 3, 4, 5].map(colIndex => (
+            {(side === 'left' ? [-1, 0, 1, 2, 3, 4, 5] : [0, 1, 2, 3, 4, 5, 6]).map(colIndex => (
               <div
                 key={colIndex}
                 className="flex flex-col gap-2"
                 style={{
                   transform: side === 'left'
-                    ? `translateY(${COLUMN_STAGGER[colIndex] * 1.5}px)`
-                    : `translateY(${COLUMN_STAGGER[5 - colIndex] * 1.5}px)`,
+                    ? `translateY(${COLUMN_STAGGER[Math.max(colIndex, 0)] * 1.5}px)`
+                    : `translateY(${COLUMN_STAGGER[Math.min(colIndex, 5)] * 1.5}px)`,
                 }}
               >
                 {[0, 1, 2].map(rowIndex => {
+                  // Check for extra keys first
+                  const extraKey = extraKeys.find(k => k.position.row === rowIndex && k.position.col === colIndex);
+                  if (extraKey) {
+                    return (
+                      <Keycap
+                        key={extraKey.id}
+                        keycap={extraKey}
+                        onClick={(event) => handleKeyClick(extraKey.id, event)}
+                        isSelected={selectedKeys.has(extraKey.id)}
+                        theme={theme}
+                      />
+                    );
+                  }
+                  
+                  // Check for special keys
+                  const specialKey = specialKeys.find(k => k.position.row === rowIndex && k.position.col === colIndex);
+                  if (specialKey) {
+                    return (
+                      <Keycap
+                        key={specialKey.id}
+                        keycap={specialKey}
+                        onClick={(event) => handleKeyClick(specialKey.id, event)}
+                        isSelected={selectedKeys.has(specialKey.id)}
+                        theme={theme}
+                      />
+                    );
+                  }
+                  
+                  // Then check for main keys
                   const key = mainKeys.find(k => k.position.row === rowIndex && k.position.col === colIndex);
                   return key ? (
                     <Keycap

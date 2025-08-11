@@ -51,21 +51,8 @@ export const Keycap3D: React.FC<Keycap3DProps> = ({
     return [baseScale, baseScale, baseScale];
   };
 
-  // Get rotation based on key position (different rows have different angles in Cherry profile)
+  // Get rotation based on key position - no rotation since not using Cherry profile
   const getKeycapRotation = (): [number, number, number] => {
-    if (keycap.keyType === 'main') {
-      const row = keycap.position.row;
-      switch (row) {
-        case 0: // Top row
-          return [-0.15, 0, 0];
-        case 1: // Home row
-          return [-0.05, 0, 0];
-        case 2: // Bottom row
-          return [0.1, 0, 0];
-      }
-    } else if (keycap.keyType === 'thumb') {
-      return [-0.1, 0, 0];
-    }
     return [0, 0, 0];
   };
 

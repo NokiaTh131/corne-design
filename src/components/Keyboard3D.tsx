@@ -77,7 +77,7 @@ export const Keyboard3D: React.FC<Keyboard3DProps> = ({
             maxPolarAngle={Math.PI / 2}
             minDistance={8}
             maxDistance={20}
-            target={[2.2, 0, 0]}
+            target={[2.7, 0, 0]}
           />
         </Suspense>
       </Canvas>

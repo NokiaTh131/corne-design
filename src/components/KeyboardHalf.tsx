@@ -49,7 +49,7 @@ export const KeyboardHalf: React.FC<KeyboardHalfProps> = ({
                 style={{
                   transform: side === 'left'
                     ? `translateY(${COLUMN_STAGGER[Math.max(colIndex, 0)] * 1.5}px)`
-                    : `translateY(${COLUMN_STAGGER[Math.min(colIndex, 5)] * 1.5}px)`,
+                    : `translateY(${COLUMN_STAGGER[Math.min(Math.max(5 - colIndex, 0), 5)] * 1.5}px)`,
                 }}
               >
                 {[0, 1, 2].map(rowIndex => {
@@ -66,7 +66,7 @@ export const KeyboardHalf: React.FC<KeyboardHalfProps> = ({
                       />
                     );
                   }
-                  
+
                   // Check for special keys
                   const specialKey = specialKeys.find(k => k.position.row === rowIndex && k.position.col === colIndex);
                   if (specialKey) {
@@ -81,7 +81,7 @@ export const KeyboardHalf: React.FC<KeyboardHalfProps> = ({
                       </div>
                     );
                   }
-                  
+
                   // Then check for main keys
                   const key = mainKeys.find(k => k.position.row === rowIndex && k.position.col === colIndex);
                   return key ? (
@@ -101,16 +101,35 @@ export const KeyboardHalf: React.FC<KeyboardHalfProps> = ({
           </div>
         </div>
 
-        {/* Thumb cluster */}
-        <div className="flex justify-center mt-6 gap-2">
-          {thumbKeys.map((key) => (
-            <Keycap
+        {/* Thumb cluster - angled and staggered like reference image */}
+        <div
+          className="flex justify-center mt-6 relative"
+          style={{
+            transform: side === 'left' ? 'translateX(120px)' : 'translateX(-120px)'
+          }}>
+          {thumbKeys.map((key, index) => (
+            <div
               key={key.id}
-              keycap={key}
-              onClick={(event) => handleKeyClick(key.id, event)}
-              isSelected={selectedKeys.has(key.id)}
-              theme={theme}
-            />
+              className="relative"
+              style={{
+                transform: side === 'left'
+                  ? index === 0 ? 'translateX(-8px) translateY(-16px)'
+                    : index === 1 ? 'translateX(0px) translateY(-8px) rotate(10deg)'
+                      : 'translateX(8px) translateY(0px) rotate(20deg)'
+                  : index === 0 ? 'translateX(-8px) translateY(0px) rotate(-20deg)'
+                    : index === 1 ? 'translateX(0px) translateY(-8px) rotate(-10deg)'
+                      : 'translateX(8px) translateY(-16px)',
+                marginLeft: '2px',
+                marginRight: '2px',
+              }}
+            >
+              <Keycap
+                keycap={key}
+                onClick={(event) => handleKeyClick(key.id, event)}
+                isSelected={selectedKeys.has(key.id)}
+                theme={theme}
+              />
+            </div>
           ))}
         </div>
 

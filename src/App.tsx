@@ -27,7 +27,7 @@ function App() {
   } = useKeyboard();
 
   const { exportAsImage } = useImageExport();
-  const [selectedTheme, setSelectedTheme] = useState<ColorTheme>(COLOR_THEMES.nord);
+  const [selectedTheme, setSelectedTheme] = useState<ColorTheme>(COLOR_THEMES.gruvbox);
 
   const handleExportImage = () => {
     exportAsImage('keyboard-display', 'my-keyboard-design');

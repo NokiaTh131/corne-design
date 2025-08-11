@@ -77,7 +77,7 @@ export const KeyboardHalf3D: React.FC<KeyboardHalf3DProps> = ({
         // Right thumb cluster: positioned under right keys (further to the right)
         x = 0.5 + (col - 1.5) * keySpacing * 1.05;
       }
-      z = 1.8; // mt-6 equivalent
+      z = 1.4; // mt-6 equivalent
 
       // Apply column stagger to thumb keys too (they should follow the stagger pattern)
       let staggerIndex;

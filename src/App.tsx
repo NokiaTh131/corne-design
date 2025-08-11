@@ -5,6 +5,8 @@ import { CableConnector } from './components/CableConnector';
 import { KeyCustomizer } from './components/KeyCustomizer';
 import { MultiKeyCustomizer } from './components/MultiKeyCustomizer';
 import { ThemeSelector } from './components/ThemeSelector';
+import { ViewToggle } from './components/ViewToggle';
+import { Keyboard3D } from './components/Keyboard3D';
 import { useKeyboard } from './hooks/useKeyboard';
 import { useImageExport } from './hooks/useImageExport';
 import { COLOR_THEMES } from './constants/themes';
@@ -28,6 +30,7 @@ function App() {
 
   const { exportAsImage } = useImageExport();
   const [selectedTheme, setSelectedTheme] = useState<ColorTheme>(COLOR_THEMES.gruvbox);
+  const [is3DMode, setIs3DMode] = useState(false);
 
   const handleExportImage = () => {
     exportAsImage('keyboard-display', 'my-keyboard-design');
@@ -39,27 +42,47 @@ function App() {
       style={{ backgroundColor: selectedTheme.colors.background }}
     >
       <div className="max-w-7xl mx-auto px-4 py-6">
+        {/* View Toggle */}
+        <div className="flex justify-center mb-6">
+          <ViewToggle
+            is3D={is3DMode}
+            onToggle={setIs3DMode}
+            theme={selectedTheme}
+          />
+        </div>
+
         {/* Keyboard Display - Centered and Prominent */}
         <div className="mt-10">
-          <div id="keyboard-display" className="flex items-center gap-2 mx-auto justify-between">
-            <KeyboardHalf
-              keys={keyboardConfig.leftKeys}
-              side="left"
-              onKeySelect={toggleKeySelection}
-              selectedKeys={selectedKeys}
-              theme={selectedTheme}
-            />
-            <CableConnector
-              cableColor={keyboardConfig.cableColor}
-            />
-            <KeyboardHalf
-              keys={keyboardConfig.rightKeys}
-              side="right"
-              onKeySelect={toggleKeySelection}
-              selectedKeys={selectedKeys}
-              theme={selectedTheme}
-            />
-          </div>
+          {is3DMode ? (
+            <div id="keyboard-display">
+              <Keyboard3D
+                keyboardConfig={keyboardConfig}
+                selectedKeys={selectedKeys}
+                onKeySelect={toggleKeySelection}
+                theme={selectedTheme}
+              />
+            </div>
+          ) : (
+            <div id="keyboard-display" className="flex items-center gap-2 mx-auto justify-between">
+              <KeyboardHalf
+                keys={keyboardConfig.leftKeys}
+                side="left"
+                onKeySelect={toggleKeySelection}
+                selectedKeys={selectedKeys}
+                theme={selectedTheme}
+              />
+              <CableConnector
+                cableColor={keyboardConfig.cableColor}
+              />
+              <KeyboardHalf
+                keys={keyboardConfig.rightKeys}
+                side="right"
+                onKeySelect={toggleKeySelection}
+                selectedKeys={selectedKeys}
+                theme={selectedTheme}
+              />
+            </div>
+          )}
         </div>
 
 

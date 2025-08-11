@@ -38,13 +38,13 @@ export const KeyboardHalf3D: React.FC<KeyboardHalf3DProps> = ({
   const getKeyPosition3D = (key: KeycapConfig): [number, number, number] => {
     const { row, col } = key.position;
 
-    // Base key spacing (matching 2D version)
     const keySpacing = 1.1; // Space between keys
     const rowSpacing = 1.1; // Space between rows
 
     // Calculate base position
     let x = col * keySpacing;
-    let z = -row * rowSpacing;
+    let adjustedRow = row === 0 ? 2 : row === 2 ? 0 : row;
+    let z = -adjustedRow * rowSpacing;
     let y = 0;
 
     // Apply column stagger exactly like 2D version (to Z-axis for depth stagger)
@@ -55,7 +55,6 @@ export const KeyboardHalf3D: React.FC<KeyboardHalf3DProps> = ({
       } else {
         staggerIndex = Math.min(Math.max(5 - col, 0), 5);
       }
-      // Convert pixel stagger to 3D units - apply to Z-axis (depth) not Y-axis (height)
       z += (COLUMN_STAGGER[staggerIndex] || 0) * 0.015;
     }
 
@@ -67,7 +66,7 @@ export const KeyboardHalf3D: React.FC<KeyboardHalf3DProps> = ({
       // Special keys at inner columns
       x = side === 'left' ? 5 * keySpacing : 0;
       // Special keys offset in Z-axis (depth) to match 2D positioning
-      z -= 0.5;
+      z += 0.5;
     } else if (key.keyType === 'thumb') {
       // Thumb cluster positioning matching 2D version
       if (side === 'left') {

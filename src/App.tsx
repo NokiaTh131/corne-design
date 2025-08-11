@@ -35,13 +35,13 @@ function App() {
 
   return (
     <div
-      className="min-h-screen transition-colors duration-300"
+      className="min-h-screen transition-colors duration-300 overflow-x-auto"
       style={{ backgroundColor: selectedTheme.colors.background }}
     >
-      <div className="max-w-6xl mx-auto px-4 py-6">
+      <div className="max-w-7xl mx-auto px-4 py-6">
         {/* Keyboard Display - Centered and Prominent */}
-        <div className="flex justify-center mt-10">
-          <div id="keyboard-display" className="flex items-center gap-2 scale-110">
+        <div className="mt-10">
+          <div id="keyboard-display" className="flex items-center gap-2 mx-auto justify-between">
             <KeyboardHalf
               keys={keyboardConfig.leftKeys}
               side="left"

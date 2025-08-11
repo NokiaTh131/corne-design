@@ -46,7 +46,7 @@ export const Keyboard3D: React.FC<Keyboard3DProps> = ({
           />
 
           {/* Environment for reflections */}
-          <Environment preset="studio" />
+          <Environment preset="city" />
 
           {/* Left keyboard half */}
           <KeyboardHalf3D

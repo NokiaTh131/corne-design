@@ -1,10 +1,12 @@
 import { useState } from 'react';
+import { Download } from 'lucide-react';
 import { KeyboardHalf } from './components/KeyboardHalf';
 import { CableConnector } from './components/CableConnector';
 import { KeyCustomizer } from './components/KeyCustomizer';
 import { MultiKeyCustomizer } from './components/MultiKeyCustomizer';
 import { ThemeSelector } from './components/ThemeSelector';
 import { useKeyboard } from './hooks/useKeyboard';
+import { useImageExport } from './hooks/useImageExport';
 import { COLOR_THEMES } from './constants/themes';
 import type { ColorTheme } from './constants/themes';
 
@@ -24,7 +26,12 @@ function App() {
     resetToDefault,
   } = useKeyboard();
 
+  const { exportAsImage } = useImageExport();
   const [selectedTheme, setSelectedTheme] = useState<ColorTheme>(COLOR_THEMES.nord);
+
+  const handleExportImage = () => {
+    exportAsImage('keyboard-display', 'my-keyboard-design');
+  };
 
   return (
     <div
@@ -34,7 +41,7 @@ function App() {
       <div className="max-w-6xl mx-auto px-4 py-6">
         {/* Keyboard Display - Centered and Prominent */}
         <div className="flex justify-center mt-10">
-          <div className="flex items-center gap-2 scale-110">
+          <div id="keyboard-display" className="flex items-center gap-2 scale-110">
             <KeyboardHalf
               keys={keyboardConfig.leftKeys}
               side="left"
@@ -125,6 +132,19 @@ function App() {
                   ))}
                 </div>
               </div>
+
+              <button
+                onClick={handleExportImage}
+                className="w-full py-1.5 px-3 text-xs rounded border flex items-center justify-center gap-1"
+                style={{
+                  backgroundColor: selectedTheme.colors.surface,
+                  borderColor: selectedTheme.colors.border,
+                  color: selectedTheme.colors.text
+                }}
+              >
+                <Download size={12} />
+                Save Image
+              </button>
 
               <button
                 onClick={resetToDefault}

@@ -71,13 +71,14 @@ export const KeyboardHalf: React.FC<KeyboardHalfProps> = ({
                   const specialKey = specialKeys.find(k => k.position.row === rowIndex && k.position.col === colIndex);
                   if (specialKey) {
                     return (
-                      <Keycap
-                        key={specialKey.id}
-                        keycap={specialKey}
-                        onClick={(event) => handleKeyClick(specialKey.id, event)}
-                        isSelected={selectedKeys.has(specialKey.id)}
-                        theme={theme}
-                      />
+                      <div key={specialKey.id} style={{ transform: 'translateY(24px)' }}>
+                        <Keycap
+                          keycap={specialKey}
+                          onClick={(event) => handleKeyClick(specialKey.id, event)}
+                          isSelected={selectedKeys.has(specialKey.id)}
+                          theme={theme}
+                        />
+                      </div>
                     );
                   }
                   

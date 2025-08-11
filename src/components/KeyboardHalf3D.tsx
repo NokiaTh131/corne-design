@@ -66,8 +66,8 @@ export const KeyboardHalf3D: React.FC<KeyboardHalf3DProps> = ({
     } else if (key.keyType === 'special') {
       // Special keys at inner columns
       x = side === 'left' ? 5 * keySpacing : 0;
-      // Special keys offset like in 2D (translateY(24px) -> 3D equivalent)
-      y += 0.24;
+      // Special keys offset in Z-axis (depth) to match 2D positioning
+      z -= 0.5;
     } else if (key.keyType === 'thumb') {
       // Thumb cluster positioning matching 2D version
       if (side === 'left') {
@@ -116,7 +116,7 @@ export const KeyboardHalf3D: React.FC<KeyboardHalf3DProps> = ({
         if (thumbIndex === 2) return [0, -0.349, 0]; // rotate(20deg) -> radians
       } else {
         if (thumbIndex === 0) return [0, 0.349, 0]; // rotate(-20deg) -> radians
-        if (thumbIndex === 1) return [0, -0.175, 0]; // rotate(-10deg) -> radians
+        if (thumbIndex === 1) return [0, 0.175, 0]; // rotate(-10deg) -> radians
         if (thumbIndex === 2) return [0, 0, 0]; // No rotation
       }
     }
